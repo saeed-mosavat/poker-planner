@@ -38,6 +38,7 @@ importers:
       ts-jest: 29.0.3
       ts-loader: ^9.2.3
       ts-node: ^10.0.0
+      tsconfig: workspace:*
       tsconfig-paths: 4.1.1
       typescript: ^4.7.4
       webpack: ^5.75.0
@@ -67,6 +68,7 @@ importers:
       ts-jest: 29.0.3_p6ekqnroyms5nhqbfxosryz7rm
       ts-loader: 9.4.2_3fkjkrd3audxnith3e7fo4fnxi
       ts-node: 10.9.1_awa2wsr5thmg3i7jqycphctjfq
+      tsconfig: link:../../packages/tsconfig
       tsconfig-paths: 4.1.1
       typescript: 4.9.4
       webpack: 5.75.0
