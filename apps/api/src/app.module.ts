@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from 'src/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 
@@ -10,6 +11,7 @@ import { ConfigModule } from '@nestjs/config';
       isGlobal: true,
       envFilePath: ['.env.local', '.env'],
     }),
+    MongooseModule.forRoot(process.env.DATABASE_CONNECTION_STRING),
     AuthModule,
   ],
   controllers: [AppController],
