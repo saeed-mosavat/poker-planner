@@ -18,11 +18,15 @@ export class UsersService {
     return this.userModel.find();
   }
 
-  findOne(id: number) {
+  findById(id: string) {
     return this.userModel.findOne({ id });
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  findByEmail(email: string) {
+    return this.userModel.findOne({ email });
+  }
+
+  async update(id: string, updateUserDto: UpdateUserDto) {
     const user = await this.userModel.findOne({ id });
     const newUser: User = { ...user, ...updateUserDto };
     if (user) {
@@ -31,7 +35,7 @@ export class UsersService {
     throw Error('Not Found!');
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.userModel.findByIdAndRemove(id);
   }
 }
