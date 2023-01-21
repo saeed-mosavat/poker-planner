@@ -15,6 +15,9 @@ export class User {
 
   @Prop({ isRequired: true })
   email: string;
+
+  @Prop()
+  avatarUrl?: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
