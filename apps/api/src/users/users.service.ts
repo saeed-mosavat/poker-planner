@@ -15,27 +15,27 @@ export class UsersService {
   }
 
   findAll() {
-    return this.userModel.find();
+    return this.userModel.find().exec();
   }
 
   findById(id: string) {
-    return this.userModel.findOne({ id });
+    return this.userModel.findOne({ id }).exec();
   }
 
   findByEmail(email: string) {
-    return this.userModel.findOne({ email });
+    return this.userModel.findOne({ email }).exec();
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
-    const user = await this.userModel.findOne({ id });
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+    const user = await this.userModel.findOne({ id }).exec();
     const newUser: User = { ...user, ...updateUserDto };
     if (user) {
-      return this.userModel.findByIdAndUpdate(id, newUser);
+      return this.userModel.findByIdAndUpdate(id, newUser).exec();
     }
     throw Error('Not Found!');
   }
 
   remove(id: string) {
-    return this.userModel.findByIdAndRemove(id);
+    return this.userModel.findByIdAndRemove(id).exec();
   }
 }

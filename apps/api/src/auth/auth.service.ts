@@ -30,6 +30,8 @@ export class AuthService {
       return this.registerUser(user);
     }
 
+    await this.userService.update(currentUser.id, user);
+
     return this.jwtService.sign({
       sub: currentUser.id,
       email: currentUser.email,
