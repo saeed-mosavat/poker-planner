@@ -6,6 +6,7 @@ import { AuthModule } from 'src/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from 'src/users/users.module';
 import { CardModule } from 'src/card/card.module';
+import { RoomModule } from 'src/room/room.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { CardModule } from 'src/card/card.module';
     UsersModule,
     AuthModule,
     CardModule,
+    RoomModule,
   ],
   controllers: [AppController],
   providers: [AppService],
