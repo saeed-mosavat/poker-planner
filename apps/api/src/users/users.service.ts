@@ -27,12 +27,9 @@ export class UsersService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    const user = await this.userModel.findById(id).exec();
-    const newUser: User = { ...user, ...updateUserDto };
-    if (user) {
-      return this.userModel.findByIdAndUpdate(id, newUser).exec();
-    }
-    throw Error('Not Found!');
+    return await this.userModel
+      .findByIdAndUpdate(id, updateUserDto, { new: true })
+      .exec();
   }
 
   remove(id: string) {
