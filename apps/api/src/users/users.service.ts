@@ -26,8 +26,8 @@ export class UsersService {
     return this.userModel.findOne({ email }).exec();
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
-    const user = await this.userModel.findOne({ id }).exec();
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    const user = await this.userModel.findById(id).exec();
     const newUser: User = { ...user, ...updateUserDto };
     if (user) {
       return this.userModel.findByIdAndUpdate(id, newUser).exec();
@@ -37,5 +37,14 @@ export class UsersService {
 
   remove(id: string) {
     return this.userModel.findByIdAndRemove(id).exec();
+  }
+
+  async createOrUpdate(user: CreateUserDto) {
+    const foundUser = await this.findByEmail(user.email);
+    if (foundUser) {
+      return await this.update(foundUser._id.toString(), user);
+    }
+
+    return await this.create(user);
   }
 }
