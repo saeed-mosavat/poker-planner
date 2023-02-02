@@ -10,5 +10,6 @@ import { Card, CardSchema } from 'src/card/schemas/card.schema';
   ],
   controllers: [CardController],
   providers: [CardService],
+  exports: [CardService],
 })
 export class CardModule {}

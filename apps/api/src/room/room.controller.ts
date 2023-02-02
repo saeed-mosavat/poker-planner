@@ -28,17 +28,23 @@ export class RoomController {
     return this.roomService.findAll();
   }
 
-  @Post('/:roomId/tasks')
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.roomService.findOne(id);
+  }
+
+  @Post('/:id/tasks')
   addTasksToRoom(
-    @Param('roomId') roomId: string,
+    @Param('id') roomId: string,
     @Body() tasks: Array<CreateTaskDto>,
   ) {
     return this.roomService.addTasks(roomId, tasks);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.roomService.findOne(id);
+  @Post('/:id/join')
+  @UseGuards(JwtAuthGuard)
+  joinRoom(@Param('id') roomId: string, @Req() req: Request) {
+    return this.roomService.join(roomId, req.user._id.toString());
   }
 
   // @Patch(':id')

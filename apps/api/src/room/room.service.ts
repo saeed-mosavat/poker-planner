@@ -5,10 +5,14 @@ import { Room, RoomDocument } from 'src/room/schemas/room.schema';
 import { CreateRoomDto } from 'src/room/dto/create-room.dto';
 import { CreateTaskDto } from 'src/room/dto/create-task.dto';
 import { UserDocument } from 'src/users/user.schema';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class RoomService {
-  constructor(@InjectModel(Room.name) private roomModel: Model<RoomDocument>) {}
+  constructor(
+    @InjectModel(Room.name) private roomModel: Model<RoomDocument>,
+    private readonly userService: UsersService,
+  ) {}
 
   create(createRoomDto: CreateRoomDto, creator: UserDocument) {
     const newRoom = new this.roomModel(createRoomDto);
@@ -41,6 +45,34 @@ export class RoomService {
       .findById(id)
       .populate(['cards', 'userCards.user'])
       .exec();
+  }
+
+  async join(roomId: string, userId: string) {
+    const room = await this.findOne(roomId);
+
+    if (room) {
+      const isAlreadyJoined = !!room.userCards.find(
+        (userCard) => userCard.user._id.toString() === userId,
+      );
+      if (isAlreadyJoined) {
+        return room;
+      }
+
+      const user = await this.userService.findById(userId);
+      if (user) {
+        room.userCards.push({
+          user,
+          isAdmin: false,
+          card: null,
+        });
+
+        return await room.save();
+      } else {
+        throw Error('invalid user id!');
+      }
+    } else {
+      throw Error('invalid room id!');
+    }
   }
 
   // update(id: string, updateCardDto: UpdateCardDto) {
