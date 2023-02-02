@@ -4,14 +4,18 @@ import { Model } from 'mongoose';
 import { Room, RoomDocument } from 'src/room/schemas/room.schema';
 import { CreateRoomDto } from 'src/room/dto/create-room.dto';
 import { CreateTaskDto } from 'src/room/dto/create-task.dto';
+import { UserDocument } from 'src/users/user.schema';
 
 @Injectable()
 export class RoomService {
   constructor(@InjectModel(Room.name) private roomModel: Model<RoomDocument>) {}
 
-  create(createRoomDto: CreateRoomDto) {
+  create(createRoomDto: CreateRoomDto, creator: UserDocument) {
     const newRoom = new this.roomModel(createRoomDto);
-    console.log(newRoom);
+    newRoom.userCards.push({
+      user: creator,
+      isAdmin: true,
+    });
     return newRoom.save();
   }
 
@@ -33,7 +37,10 @@ export class RoomService {
   }
 
   findOne(id: string) {
-    return this.roomModel.findById(id).populate('cards').exec();
+    return this.roomModel
+      .findById(id)
+      .populate(['cards', 'userCards.user'])
+      .exec();
   }
 
   // update(id: string, updateCardDto: UpdateCardDto) {

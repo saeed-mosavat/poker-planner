@@ -1,8 +1,17 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { RoomService } from 'src/room/room.service';
 import { CreateRoomDto } from 'src/room/dto/create-room.dto';
 import { CreateTaskDto } from 'src/room/dto/create-task.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { Request } from 'express';
 
 @Controller('rooms')
 export class RoomController {
@@ -10,8 +19,8 @@ export class RoomController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  create(@Body() createRoomDto: CreateRoomDto) {
-    return this.roomService.create(createRoomDto);
+  create(@Body() createRoomDto: CreateRoomDto, @Req() req: Request) {
+    return this.roomService.create(createRoomDto, req.user);
   }
 
   @Get()
