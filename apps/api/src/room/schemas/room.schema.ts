@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 import { Task, TaskSchema } from 'src/room/schemas/task.schema';
-import { Card } from 'src/card/schemas/card.schema';
+import { Card, CardDocument } from 'src/card/schemas/card.schema';
 import { UserCard, UserCardSchema } from 'src/room/schemas/user-card.schema';
 
 export type RoomDocument = HydratedDocument<Room>;
@@ -17,7 +17,7 @@ export class Room {
   tasks: Array<Task>;
 
   @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: Card.name })
-  cards: Array<Card>;
+  cards: Array<CardDocument>;
 
   @Prop({ type: [UserCardSchema], default: [] })
   userCards: Array<UserCard>;

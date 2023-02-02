@@ -41,10 +41,29 @@ export class RoomController {
     return this.roomService.addTasks(roomId, tasks);
   }
 
+  @Post('/:id/cards')
+  addCardsToRoom(@Param('id') roomId: string, @Body() cardIds: Array<string>) {
+    return this.roomService.addCards(roomId, cardIds);
+  }
+
   @Post('/:id/join')
   @UseGuards(JwtAuthGuard)
   joinRoom(@Param('id') roomId: string, @Req() req: Request) {
     return this.roomService.join(roomId, req.user._id.toString());
+  }
+
+  @Post('/:id/vote')
+  @UseGuards(JwtAuthGuard)
+  vote(
+    @Param('id') roomId: string,
+    @Req() req: Request,
+    @Body('cardId') cardId?: string | null,
+  ) {
+    return this.roomService.vote(
+      roomId,
+      req.user._id.toString(),
+      cardId ?? null,
+    );
   }
 
   // @Patch(':id')

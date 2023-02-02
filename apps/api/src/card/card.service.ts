@@ -22,6 +22,10 @@ export class CardService {
     return this.cardModel.findById(id).exec();
   }
 
+  findMany(ids: Array<string>) {
+    return this.cardModel.find({ _id: { $in: ids } }).exec();
+  }
+
   update(id: string, updateCardDto: UpdateCardDto) {
     return this.cardModel
       .findByIdAndUpdate(id, updateCardDto, { new: true })
